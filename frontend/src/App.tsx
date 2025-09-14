@@ -19,7 +19,7 @@ function App() {
   const [filters, setFilters] = useState<Filters>({
     status: '',
     platform: '',
-    tag: [],
+    tag: '',
     search: '',
   })
 
@@ -30,7 +30,20 @@ function App() {
       setLoading(true)
       setError(null)
       const offset = (page - 1) * pageSize
-      const response = await getPosts({ limit: pageSize, offset })
+      
+      // Build query parameters with filters
+      const params: any = {
+        limit: pageSize,
+        offset,
+      }
+      
+      // Add filter parameters if they have values
+      if (filters.status) params.status = filters.status
+      if (filters.platform) params.platform = filters.platform
+      if (filters.tag) params.tag = filters.tag
+      if (filters.search) params.search = filters.search
+      
+      const response = await getPosts(params)
       setPosts(response.data)
       setTotal(response.total)
     } catch (err: any) {
@@ -40,6 +53,12 @@ function App() {
     } finally {
       setLoading(false)
     }
+  }
+
+  // Filter handler
+  const handleFiltersChange = (newFilters: Filters) => {
+    setFilters(newFilters)
+    setPage(1) // Reset to first page when filters change
   }
 
   // Pagination handlers
@@ -52,10 +71,10 @@ function App() {
     setPage(1) // Reset to first page when changing page size
   }
 
-  // Load posts on mount and when pagination changes
+  // Load posts on mount and when pagination or filters change
   useEffect(() => {
     loadPosts()
-  }, [page, pageSize])
+  }, [page, pageSize, filters])
 
   return (
     <div className="p-6">
@@ -67,7 +86,7 @@ function App() {
 
       {/* FilterBar wired with controlled state */}
       <div className="mb-4">
-        <FilterBar filters={filters} onFiltersChange={setFilters} />
+        <FilterBar filters={filters} onFiltersChange={handleFiltersChange} />
       </div>
 
       <Button variant="contained" color="primary" className="m-4" aria-label="scaffold-test-button">

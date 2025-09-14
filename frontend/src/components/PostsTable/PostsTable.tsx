@@ -12,7 +12,8 @@ import {
   Skeleton,
   Button,
 } from '@mui/material'
-import { formatDate, formatPlatform, formatTag, formatStatusLabel } from '../../utils/format'
+import { formatDate, formatPlatform, formatTag } from '../../utils/format'
+import StatusChip from './StatusChip'
 import type { Post } from '../../types'
 
 interface Props {
@@ -113,9 +114,7 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
               </TableCell>
               
               <TableCell>
-                <Typography variant="body2">
-                  {formatStatusLabel(post.status)}
-                </Typography>
+                <StatusChip status={post.status} />
               </TableCell>
               
               <TableCell>

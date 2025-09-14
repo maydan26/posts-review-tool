@@ -10,7 +10,7 @@ export const ClearButton: React.FC<Props> = ({ onClick }) => (
     variant="outlined" 
     onClick={onClick} 
     size="small" 
-    className="h-10 px-4"
+    className="h-10 px-6 min-w-[100px]"
   >
     Clear
   </Button>

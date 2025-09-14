@@ -3,9 +3,9 @@ export function formatStatusLabel(status: string): string {
     case 'UNDER_REVIEW':
       return 'Under Review'
     case 'FLAGGED':
-      return 'FLAGGED'
+      return 'Flagged'
     case 'DISMISSED':
-      return 'DISMISSED'
+      return 'Dismissed'
     default:
       return status
   }

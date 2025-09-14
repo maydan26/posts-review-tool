@@ -1,6 +1,6 @@
 import React from 'react'
 import { TextField } from '@mui/material'
-import { TEXT_FIELD_PROPS, FILTER_BAR_STYLES } from '../constants'
+import { TEXT_FIELD_PROPS } from '../constants'
 
 interface Props {
   value: string
@@ -12,7 +12,7 @@ export const SearchField: React.FC<Props> = ({ value, onChange }) => (
     label="Search"
     value={value}
     onChange={(e) => onChange(e.target.value)}
-    className={`w-[${FILTER_BAR_STYLES.CONTROL_WIDTHS.SEARCH}]`}
+    className="w-[240px]"
     {...TEXT_FIELD_PROPS}
   />
 )

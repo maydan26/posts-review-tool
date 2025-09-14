@@ -14,12 +14,12 @@ export const FilterBar: React.FC<Props> = ({ filters, onFiltersChange }) => {
   }
 
   const handleClear = () => {
-    onFiltersChange({ status: '', platform: '', tag: [], search: '' })
+    onFiltersChange({ status: '', platform: '', tag: '', search: '' })
   }
 
   return (
-    <Paper elevation={1} className="p-4 bg-white">
-      <Box className="flex flex-row items-center gap-4 flex-wrap">
+    <Paper elevation={1} className="p-6 bg-white">
+      <Box className="flex flex-row items-center justify-center gap-6 flex-wrap">
         <SearchField 
           value={filters.search} 
           onChange={(value) => handleChange('search', value)} 
