@@ -2,12 +2,23 @@ import { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import { getPosts } from './api/posts'
 import type { Post, PaginatedResponse } from './types'
+import FilterBar from './components/FilterBar/FilterBar'
+import type { Filters } from './components/FilterBar/types'
 
 function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<{ count: number; total: number } | null>(null)
 
+  // Controlled filters for the FilterBar
+  const [filters, setFilters] = useState<Filters>({
+    status: '',
+    platform: '',
+    tag: [],
+    search: '',
+  })
+
+  // Connectivity test (kept minimal as before)
   useEffect(() => {
     ;(async () => {
       try {
@@ -26,6 +37,11 @@ function App() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4">Flagged Posts Review Tool</h1>
+
+      {/* FilterBar wired with controlled state */}
+      <div className="mb-4">
+        <FilterBar filters={filters} onFiltersChange={setFilters} />
+      </div>
 
       <Button variant="contained" color="primary" className="m-4" aria-label="scaffold-test-button">
         MUI Button with Tailwind margin
