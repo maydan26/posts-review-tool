@@ -36,7 +36,11 @@ function App() {
 
   return (
     <div className="p-6">
+            <div className="bg-red-500 h-10 w-10 mb-4" />
+
       <h1 className="text-2xl font-semibold mb-4">Flagged Posts Review Tool</h1>
+
+      {/* Tailwind test square: should be visible red square */}
 
       {/* FilterBar wired with controlled state */}
       <div className="mb-4">

@@ -3,9 +3,9 @@ import { formatPlatform, formatStatusLabel } from '../../utils/format'
 
 export const STATUS_OPTIONS: Array<{ value: PostStatus | ''; label: string }> = [
   { value: '', label: 'All Status' },
-  { value: 'FLAGGED', label: formatStatusLabel('FLAGGED') },
+  { value: 'FLAGGED', label: 'Flagged' },
   { value: 'UNDER_REVIEW', label: formatStatusLabel('UNDER_REVIEW') },
-  { value: 'DISMISSED', label: formatStatusLabel('DISMISSED') },
+  { value: 'DISMISSED', label: 'Dismissed' },
 ]
 
 export const PLATFORM_OPTIONS: string[] = [
