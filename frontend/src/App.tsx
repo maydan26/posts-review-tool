@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
+import type { Post } from './types'
 import { getPosts } from './api/posts'
-import type { Post, PaginatedResponse } from './types'
 import FilterBar from './components/FilterBar/FilterBar'
+import PostsTable from './components/PostsTable/PostsTable'
+import PaginationBar from './components/PaginationBar/PaginationBar'
 import type { Filters } from './components/FilterBar/types'
 
 function App() {
+  const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [result, setResult] = useState<{ count: number; total: number } | null>(null)
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
 
   // Controlled filters for the FilterBar
   const [filters, setFilters] = useState<Filters>({
@@ -18,21 +23,39 @@ function App() {
     search: '',
   })
 
-  // Connectivity test (kept minimal as before)
+
+  // Load posts from API
+  const loadPosts = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const offset = (page - 1) * pageSize
+      const response = await getPosts({ limit: pageSize, offset })
+      setPosts(response.data)
+      setTotal(response.total)
+    } catch (err: any) {
+      setError(err?.message || 'Failed to load posts. Please try again.')
+      setPosts([])
+      setTotal(0)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Pagination handlers
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage)
+  }
+
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize)
+    setPage(1) // Reset to first page when changing page size
+  }
+
+  // Load posts on mount and when pagination changes
   useEffect(() => {
-    ;(async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        const json = await getPosts({ limit: 5, offset: 0 })
-        setResult({ count: json.data.length, total: json.total })
-      } catch (e: any) {
-        setError(e?.message || 'Unknown error')
-      } finally {
-        setLoading(false)
-      }
-    })()
-  }, [])
+    loadPosts()
+  }, [page, pageSize])
 
   return (
     <div className="p-6">
@@ -52,12 +75,22 @@ function App() {
       </Button>
 
       <div className="mt-4">
-        {loading && <span className="text-gray-600">Loading posts…</span>}
-        {!loading && error && <span className="text-red-600">Error: {error}</span>}
-        {!loading && !error && result && (
-          <span className="text-green-700">
-            Fetched {result.count} of total {result.total} posts (limit=5)
-          </span>
+        <PostsTable 
+          posts={posts} 
+          loading={loading}
+          error={error}
+          total={total}
+          onRetry={loadPosts}
+        />
+        
+        {!loading && !error && total > 0 && (
+          <PaginationBar
+            page={page}
+            pageSize={pageSize}
+            total={total}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+          />
         )}
       </div>
     </div>
