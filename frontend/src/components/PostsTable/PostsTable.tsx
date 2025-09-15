@@ -11,10 +11,16 @@ import {
   Typography,
   Skeleton,
   Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Snackbar,
 } from '@mui/material'
 import { formatDate, formatPlatform, formatTag } from '../../utils/format'
 import StatusChip from './StatusChip'
 import type { Post } from '../../types'
+import type { PostStatus } from '../../types'
+import { updateStatus } from '../../api/posts'
 
 interface Props {
   posts: Post[]
@@ -25,6 +31,45 @@ interface Props {
 }
 
 export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRetry }) => {
+  const [statusMenuAnchor, setStatusMenuAnchor] = React.useState<HTMLElement | null>(null)
+  const [statusMenuPostId, setStatusMenuPostId] = React.useState<number | null>(null)
+  const [statusOverrides, setStatusOverrides] = React.useState<Record<number, PostStatus>>({})
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
+
+  const openStatusMenu = (event: React.MouseEvent<HTMLElement>, postId: number) => {
+    setStatusMenuAnchor(event.currentTarget)
+    setStatusMenuPostId(postId)
+  }
+
+  const closeStatusMenu = () => {
+    setStatusMenuAnchor(null)
+    setStatusMenuPostId(null)
+  }
+
+  const handleSelectStatus = async (newStatus: PostStatus) => {
+    if (statusMenuPostId == null) return
+
+    const postId = statusMenuPostId
+    const originalPost = posts.find((p) => p.id === postId)
+    if (!originalPost) {
+      closeStatusMenu()
+      return
+    }
+
+    const previousStatus: PostStatus = statusOverrides[postId] ?? originalPost.status
+
+    // Optimistic update
+    setStatusOverrides((prev) => ({ ...prev, [postId]: newStatus }))
+    closeStatusMenu()
+
+    try {
+      await updateStatus(postId, newStatus)
+    } catch (e) {
+      // Rollback
+      setStatusOverrides((prev) => ({ ...prev, [postId]: previousStatus }))
+      setErrorMessage('Failed to update status. Please try again.')
+    }
+  }
   // Loading state - show skeleton
   if (loading) {
     return (
@@ -114,7 +159,17 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
               </TableCell>
               
               <TableCell>
-                <StatusChip status={post.status} />
+                <div className="flex items-center gap-2">
+                  <StatusChip status={statusOverrides[post.id] ?? post.status} />
+                  <IconButton
+                    size="small"
+                    aria-label="Edit status"
+                    onClick={(e) => openStatusMenu(e, post.id)}
+                  >
+                    {/* Using text glyph to avoid extra icon dependency */}
+                    <span className="text-sm">✎</span>
+                  </IconButton>
+                </div>
               </TableCell>
               
               <TableCell>
@@ -138,6 +193,26 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
         </TableBody>
       </Table>
     </TableContainer>
+    <Menu
+      anchorEl={statusMenuAnchor}
+      open={Boolean(statusMenuAnchor)}
+      onClose={closeStatusMenu}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+    >
+      {(['FLAGGED', 'UNDER_REVIEW', 'DISMISSED'] as PostStatus[]).map((opt) => (
+        <MenuItem key={opt} onClick={() => handleSelectStatus(opt)}>
+          {opt === 'FLAGGED' ? 'Flagged' : opt === 'UNDER_REVIEW' ? 'Under Review' : 'Dismissed'}
+        </MenuItem>
+      ))}
+    </Menu>
+    <Snackbar
+      open={Boolean(errorMessage)}
+      autoHideDuration={3000}
+      onClose={() => setErrorMessage(null)}
+      message={errorMessage ?? ''}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    />
     </div>
   )
 }
