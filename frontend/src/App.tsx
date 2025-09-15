@@ -71,6 +71,11 @@ function App() {
     setPage(1) // Reset to first page when changing page size
   }
 
+  // Handle posts changes from inline editing
+  const handlePostsChange = (updatedPosts: Post[]) => {
+    setPosts(updatedPosts)
+  }
+
   // Load posts on mount and when pagination or filters change
   useEffect(() => {
     loadPosts()
@@ -100,6 +105,7 @@ function App() {
           error={error}
           total={total}
           onRetry={loadPosts}
+          onPostsChange={handlePostsChange}
         />
         
         {!loading && !error && total > 0 && (
