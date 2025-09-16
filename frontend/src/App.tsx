@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import Button from '@mui/material/Button'
 import type { Post } from './types'
+import { Typography } from '@mui/material'
 import { getPosts } from './api/posts'
 import FilterBar from './components/FilterBar/FilterBar'
 import PostsTable from './components/PostsTable/PostsTable'
@@ -83,20 +83,18 @@ function App() {
 
   return (
     <div className="p-6">
-            <div className="bg-red-500 h-10 w-10 mb-4" />
-
-      <h1 className="text-2xl font-semibold mb-4">Flagged Posts Review Tool</h1>
-
-      {/* Tailwind test square: should be visible red square */}
-
+      <Typography
+        variant="h4"
+        component="h1"
+        className="mb-4 font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+      >
+        Flagged Posts Review Tool
+      </Typography>
+      
       {/* FilterBar wired with controlled state */}
       <div className="mb-4">
         <FilterBar filters={filters} onFiltersChange={handleFiltersChange} />
       </div>
-
-      <Button variant="contained" color="primary" className="m-4" aria-label="scaffold-test-button">
-        MUI Button with Tailwind margin
-      </Button>
 
       <div className="mt-4">
         <PostsTable 

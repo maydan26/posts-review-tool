@@ -133,7 +133,8 @@
     "status": "UNDER_REVIEW",
     "tags": [
       "environment",
-      "science"
+      "science",
+      "koko"
     ],
     "created_at": "2025-08-06T12:45:00Z"
   },
@@ -197,7 +198,7 @@
     "id": 19,
     "platform": "twitter",
     "text": "New research suggests a potential link between social media usage and mental health. Interesting findings worth discussing.",
-    "status": "DISMISSED",
+    "status": "UNDER_REVIEW",
     "tags": [
       "health",
       "research",

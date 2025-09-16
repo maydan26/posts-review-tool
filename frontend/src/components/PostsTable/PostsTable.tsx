@@ -4,7 +4,7 @@ import { formatDate, formatPlatform } from '../../utils/format'
 import StatusCell from './StatusCell'
 import TagsCell from './TagsCell'
 import TableSkeleton from './TableSkeleton'
-import TableEmpty from './TableEmpty'
+// Note: Inline empty state here per UX requirement
 import TableError from './TableError'
 import type { Post } from '../../types'
 import type { PostStatus } from '../../types'
@@ -20,6 +20,7 @@ interface Props {
 }
 
 export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRetry, onPostsChange }) => {
+  
   const [statusOverrides, setStatusOverrides] = React.useState<Record<number, PostStatus>>({})
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
   const [loadingFlags, setLoadingFlags] = React.useState<Record<number, boolean>>({})
@@ -50,7 +51,15 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
 
   if (error) return <TableError error={error} onRetry={onRetry} />
 
-  if (posts.length === 0) return <TableEmpty />
+  if (posts.length === 0) return (
+    <Paper className="p-8 text-center flex items-center justify-center">
+      <div className="flex flex-col items-center gap-2 text-gray-600">
+        <span className="text-4xl" aria-hidden>📭</span>
+        <Typography variant="h6" className="font-semibold text-gray-800">No posts found</Typography>
+        <Typography variant="body2" className="text-gray-500">Try adjusting filters or search terms.</Typography>
+      </div>
+    </Paper>
+  )
 
   return (
     <div>
@@ -61,11 +70,11 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
         <Table stickyHeader aria-label="posts table">
           <TableHead className="bg-gray-100">
             <TableRow>
-              <TableCell className="w-1/3 font-semibold">Text</TableCell>
-              <TableCell className="w-1/6 font-semibold">Platform</TableCell>
-              <TableCell className="w-1/6 font-semibold">Status</TableCell>
-              <TableCell className="w-1/6 font-semibold">Tags</TableCell>
-              <TableCell className="w-1/6 font-semibold">Date</TableCell>
+              <TableCell className="w-1/3 font-semibold text-gray-800">Text</TableCell>
+              <TableCell className="w-1/6 font-semibold text-gray-800">Platform</TableCell>
+              <TableCell className="w-1/6 font-semibold text-gray-800">Status</TableCell>
+              <TableCell className="w-1/6 font-semibold text-gray-800">Tags</TableCell>
+              <TableCell className="w-1/6 font-semibold text-gray-800">Date</TableCell>
             </TableRow>
           </TableHead>
         <TableBody>
@@ -73,14 +82,14 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
             <TableRow key={post.id} hover className="h-16">
               <TableCell>
                 <Tooltip title={post.text} placement="top">
-                  <Typography variant="body2" className="max-w-xs truncate cursor-help">
+                  <Typography variant="body2" className="max-w-xs truncate cursor-help text-gray-600">
                     {post.text}
                   </Typography>
                 </Tooltip>
               </TableCell>
               
               <TableCell>
-                <Typography variant="body2">
+                <Typography variant="body2" className="text-gray-600">
                   {formatPlatform(post.platform)}
                 </Typography>
               </TableCell>
@@ -104,7 +113,7 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
               
               <TableCell>
                 <Tooltip title={post.created_at} placement="top">
-                  <Typography variant="body2">
+                  <Typography variant="body2" className="text-gray-600">
                     {formatDate(post.created_at)}
                   </Typography>
                 </Tooltip>
