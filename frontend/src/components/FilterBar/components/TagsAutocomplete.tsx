@@ -1,8 +1,9 @@
 import React from 'react'
 import { Autocomplete, TextField } from '@mui/material'
-import { TAG_OPTIONS } from '../options'
 import { formatTag } from '../../../utils/format'
 import { TEXT_FIELD_PROPS } from '../constants'
+import { useTagOptions } from '../../../contexts/TagOptionsContext'
+import { TAG_OPTIONS } from '../options'
 
 interface Props {
   value: string
@@ -10,16 +11,19 @@ interface Props {
 }
 
 export const TagsAutocomplete: React.FC<Props> = ({ value, onChange }) => {
+  const { tagOptions, isLoading } = useTagOptions()
+
   return (
     <Autocomplete
       size="small"
-      options={TAG_OPTIONS}
+      options={tagOptions && tagOptions.length > 0 ? tagOptions : TAG_OPTIONS}
       value={value || null}
       onChange={(_, val) => {
         onChange(val || '')
       }}
-      getOptionLabel={(opt) => formatTag(opt)}
+      getOptionLabel={(opt) => (typeof opt === 'string' ? formatTag(opt) : '')}
       className="w-[200px]"
+      loading={isLoading}
       renderInput={(params) => (
         <TextField 
           {...params} 

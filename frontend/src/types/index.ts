@@ -30,3 +30,10 @@ export interface ApiError {
   status?: number;
   details?: unknown;
 }
+
+// Tag Options Context Types
+export interface TagOptionsContextType {
+  tagOptions: string[];
+  addTagOption: (tag: string) => void;
+  isLoading: boolean;
+}

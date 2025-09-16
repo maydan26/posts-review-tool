@@ -1,6 +1,7 @@
 import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { screen, fireEvent } from '@testing-library/react'
+import { renderWithProviders } from '../test-utils'
 import FilterBar from '../../src/components/FilterBar/FilterBar'
 import type { Filters } from '../../src/components/FilterBar/types'
 
@@ -12,7 +13,7 @@ const renderFB = (overrides: Partial<Filters> = {}, onChange = vi.fn()) => {
     search: '',
     ...overrides,
   }
-  render(<FilterBar filters={filters} onFiltersChange={onChange} />)
+  renderWithProviders(<FilterBar filters={filters} onFiltersChange={onChange} />)
   return { onChange }
 }
 
@@ -53,8 +54,8 @@ describe('FilterBar', () => {
   })
 
   it('clears all filters', () => {
-    const { onChange } = renderFB({ status: 'FLAGGED', platform: 'twitter', tag: ['health'], search: 'x' })
+    const { onChange } = renderFB({ status: 'FLAGGED', platform: 'twitter', tag: 'health', search: 'x' })
     fireEvent.click(screen.getByText(/clear/i))
-    expect(onChange).toHaveBeenCalledWith({ status: '', platform: '', tag: [], search: '' })
+    expect(onChange).toHaveBeenCalledWith({ status: '', platform: '', tag: '', search: '' })
   })
 })

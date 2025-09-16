@@ -4,8 +4,8 @@ import { formatStatusLabel, formatPlatform, formatTag, formatDate, getStatusColo
 describe('utils/format', () => {
   it('formatStatusLabel', () => {
     expect(formatStatusLabel('UNDER_REVIEW')).toBe('Under Review')
-    expect(formatStatusLabel('FLAGGED')).toBe('FLAGGED')
-    expect(formatStatusLabel('DISMISSED')).toBe('DISMISSED')
+    expect(formatStatusLabel('FLAGGED')).toBe('Flagged')
+    expect(formatStatusLabel('DISMISSED')).toBe('Dismissed')
   })
 
   it('formatPlatform capitalizes', () => {

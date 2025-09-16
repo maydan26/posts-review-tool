@@ -1,6 +1,7 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
+import { renderWithProviders } from '../test-utils'
 import userEvent from '@testing-library/user-event'
 import TagsCell from '../../src/components/PostsTable/TagsCell'
 
@@ -31,7 +32,7 @@ function renderTagsCell(props: TestProps = {}) {
     onTagsChange: vi.fn(),
     ...props,
   }
-  return render(<TagsCell {...defaultProps} />)
+  return renderWithProviders(<TagsCell {...defaultProps} />)
 }
 
 describe('TagsCell', () => {

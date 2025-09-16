@@ -2,6 +2,7 @@ import React from 'react'
 import { Chip, TextField, Snackbar, CircularProgress, IconButton } from '@mui/material'
 import { formatTag } from '../../utils/format'
 import { addTag, removeTag } from '../../api/posts'
+import { useTagOptions } from '../../contexts/TagOptionsContext'
 
 interface Props {
   postId: string
@@ -14,6 +15,7 @@ export const TagsCell: React.FC<Props> = ({ postId, tags, onTagsChange }) => {
   const [newTag, setNewTag] = React.useState('')
   const [error, setError] = React.useState<string | null>(null)
   const [loading, setLoading] = React.useState<Record<string, boolean>>({})
+  const { addTagOption } = useTagOptions()
 
   const handleAddTag = async () => {
     if (!newTag.trim()) return
@@ -22,6 +24,8 @@ export const TagsCell: React.FC<Props> = ({ postId, tags, onTagsChange }) => {
       await addTag(Number(postId), newTag.trim())
       // Refresh tags by calling the parent callback
       onTagsChange([...tags, newTag.trim()])
+      // Add new tag to global options
+      addTagOption(newTag.trim())
       setNewTag('')
       setAdding(false)
     } catch (err) {

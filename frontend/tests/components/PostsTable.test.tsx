@@ -1,6 +1,7 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
+import { renderWithProviders } from '../test-utils'
 import userEvent from '@testing-library/user-event'
 import PostsTable from '../../src/components/PostsTable/PostsTable'
 import type { Post } from '../../src/types'
@@ -31,7 +32,7 @@ const basePosts: Post[] = [
 ]
 
 function renderTable(posts: Post[] = basePosts) {
-  return render(
+  return renderWithProviders(
     <PostsTable posts={posts} loading={false} error={null} total={posts.length} />
   )
 }
