@@ -22,9 +22,7 @@ export const TagsCell: React.FC<Props> = ({ postId, tags, onTagsChange }) => {
 
     try {
       await addTag(Number(postId), newTag.trim())
-      // Refresh tags by calling the parent callback
       onTagsChange([...tags, newTag.trim()])
-      // Add new tag to global options
       addTagOption(newTag.trim())
       setNewTag('')
       setAdding(false)
@@ -38,7 +36,6 @@ export const TagsCell: React.FC<Props> = ({ postId, tags, onTagsChange }) => {
     
     try {
       await removeTag(Number(postId), tagToRemove)
-      // Update UI by removing the tag
       onTagsChange(tags.filter(tag => tag !== tagToRemove))
     } catch (err) {
       setError('Failed to remove tag')

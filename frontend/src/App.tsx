@@ -91,7 +91,6 @@ function App() {
         Flagged Posts Review Tool
       </Typography>
       
-      {/* FilterBar wired with controlled state */}
       <div className="mb-4">
         <FilterBar filters={filters} onFiltersChange={handleFiltersChange} />
       </div>

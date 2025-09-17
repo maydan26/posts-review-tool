@@ -2,6 +2,8 @@ import React from 'react'
 import { IconButton, Menu, MenuItem } from '@mui/material'
 import StatusChip from './StatusChip'
 import type { PostStatus } from '../../types'
+import { STATUS_VALUES } from '../../constants/status'
+import { formatFromSnakeCase } from '../../utils/format'
 
 interface Props {
   postId: number
@@ -10,7 +12,7 @@ interface Props {
   onChange: (postId: number, next: PostStatus) => Promise<void> | void
 }
 
-const STATUS_OPTIONS: PostStatus[] = ['FLAGGED', 'UNDER_REVIEW', 'DISMISSED']
+const STATUS_OPTIONS: PostStatus[] = STATUS_VALUES
 
 export const StatusCell: React.FC<Props> = ({ postId, status, busy, onChange }) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
@@ -41,11 +43,14 @@ export const StatusCell: React.FC<Props> = ({ postId, status, busy, onChange }) 
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
-        {STATUS_OPTIONS.map((opt) => (
-          <MenuItem key={opt} onClick={() => handleSelect(opt)} disabled={busy}>
-            {opt === 'FLAGGED' ? 'Flagged' : opt === 'UNDER_REVIEW' ? 'Under Review' : 'Dismissed'}
-          </MenuItem>
-        ))}
+        {STATUS_OPTIONS.map((opt) => {
+          const label = formatFromSnakeCase(opt)
+          return (
+            <MenuItem key={opt} onClick={() => handleSelect(opt)} disabled={busy}>
+              {label}
+            </MenuItem>
+          )
+        })}
       </Menu>
     </div>
   )

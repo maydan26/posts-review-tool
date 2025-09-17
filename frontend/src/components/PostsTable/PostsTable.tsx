@@ -6,6 +6,7 @@ import TagsCell from './TagsCell'
 import TableSkeleton from './TableSkeleton'
 // Note: Inline empty state here per UX requirement
 import TableError from './TableError'
+import { TABLE_HEADERS } from './constants'
 import type { Post } from '../../types'
 import type { PostStatus } from '../../types'
 import { updateStatus } from '../../api/posts'
@@ -70,11 +71,9 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
         <Table stickyHeader aria-label="posts table">
           <TableHead className="bg-gray-100">
             <TableRow>
-              <TableCell scope="col" className="w-1/3 font-semibold text-gray-800">Text</TableCell>
-              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Platform</TableCell>
-              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Status</TableCell>
-              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Tags</TableCell>
-              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Date</TableCell>
+              {TABLE_HEADERS.map(({ key, label, className }) => (
+                <TableCell key={key} scope="col" className={className}>{label}</TableCell>
+              ))}
             </TableRow>
           </TableHead>
         <TableBody>

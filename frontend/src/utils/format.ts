@@ -1,14 +1,11 @@
-export function formatStatusLabel(status: string): string {
-  switch (status) {
-    case 'UNDER_REVIEW':
-      return 'Under Review'
-    case 'FLAGGED':
-      return 'Flagged'
-    case 'DISMISSED':
-      return 'Dismissed'
-    default:
-      return status
-  }
+export function formatFromSnakeCase(input: string): string {
+    return input
+      .toLowerCase()
+      .split("_")
+      .map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      )
+      .join(" ");
 }
 
 export function formatPlatform(platform: string): string {

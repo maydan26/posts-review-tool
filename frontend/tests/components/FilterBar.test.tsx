@@ -1,6 +1,7 @@
 import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
 import { screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { renderWithProviders } from '../test-utils'
 import FilterBar from '../../src/components/FilterBar/FilterBar'
 import type { Filters } from '../../src/components/FilterBar/types'
@@ -28,21 +29,22 @@ describe('FilterBar', () => {
     expect(screen.getByText(/clear/i)).toBeInTheDocument()
   })
 
-  it('updates status and platform', () => {
+  it('updates status and platform', async () => {
     const { onChange } = renderFB()
-
+    const user = userEvent.setup()
+  
     // Open and choose status
-    fireEvent.mouseDown(screen.getByRole('combobox', { name: /status/i }))
-    const flagged = screen.getByRole('option', { name: /flagged/i })
-    fireEvent.click(flagged)
-
+    await user.click(screen.getByRole('combobox', { name: /status/i }))
+    const flagged = await screen.findByRole('option', { name: /flagged/i })
+    await user.click(flagged)
+  
     expect(onChange).toHaveBeenCalled()
-
+  
     // Open and choose platform
-    fireEvent.mouseDown(screen.getByRole('combobox', { name: /platform/i }))
-    const twitter = screen.getByRole('option', { name: /twitter/i })
-    fireEvent.click(twitter)
-
+    await user.click(screen.getByRole('combobox', { name: /platform/i }))
+    const twitter = await screen.findByRole('option', { name: /twitter/i })
+    await user.click(twitter)
+  
     expect(onChange).toHaveBeenCalled()
   })
 

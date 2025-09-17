@@ -1,11 +1,10 @@
 import type { PostStatus } from '../../types'
-import { formatPlatform, formatStatusLabel } from '../../utils/format'
+import { formatPlatform, formatFromSnakeCase } from '../../utils/format'
+import { STATUS_VALUES } from '../../constants/status'
 
 export const STATUS_OPTIONS: Array<{ value: PostStatus | ''; label: string }> = [
   { value: '', label: 'All Status' },
-  { value: 'FLAGGED', label: 'Flagged' },
-  { value: 'UNDER_REVIEW', label: formatStatusLabel('UNDER_REVIEW') },
-  { value: 'DISMISSED', label: 'Dismissed' },
+  ...STATUS_VALUES.map((s) => ({ value: s, label: formatFromSnakeCase(s)})),
 ]
 
 export const PLATFORM_OPTIONS: string[] = [

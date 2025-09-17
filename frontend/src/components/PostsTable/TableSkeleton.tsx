@@ -1,5 +1,6 @@
 import React from 'react'
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Skeleton } from '@mui/material'
+import { TABLE_HEADERS } from './constants'
 
 export const TableSkeleton: React.FC = () => {
   return (
@@ -7,11 +8,9 @@ export const TableSkeleton: React.FC = () => {
       <Table stickyHeader aria-label="posts table">
         <TableHead className="bg-gray-100">
           <TableRow>
-            <TableCell className="w-1/3 font-semibold">Text</TableCell>
-            <TableCell className="w-1/6 font-semibold">Platform</TableCell>
-            <TableCell className="w-1/6 font-semibold">Status</TableCell>
-            <TableCell className="w-1/6 font-semibold">Tags</TableCell>
-            <TableCell className="w-1/6 font-semibold">Date</TableCell>
+            {TABLE_HEADERS.map(({ key, label, className }) => (
+              <TableCell key={key} className={className}>{label}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>

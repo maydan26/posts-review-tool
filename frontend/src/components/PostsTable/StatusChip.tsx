@@ -1,6 +1,6 @@
 import React from 'react'
 import { Chip } from '@mui/material'
-import { formatStatusLabel, getStatusColor } from '../../utils/format'
+import { formatFromSnakeCase, getStatusColor } from '../../utils/format'
 import type { PostStatus } from '../../types'
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const StatusChip: React.FC<Props> = ({ status }) => {
-  const label = formatStatusLabel(status)
+  const label = formatFromSnakeCase(status)
   const color = getStatusColor(status)
 
   return (

@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { formatStatusLabel, formatPlatform, formatTag, formatDate, getStatusColor } from '../../src/utils/format'
+import { formatFromSnakeCase, formatPlatform, formatTag, formatDate, getStatusColor } from '../../src/utils/format'
 
 describe('utils/format', () => {
-  it('formatStatusLabel', () => {
-    expect(formatStatusLabel('UNDER_REVIEW')).toBe('Under Review')
-    expect(formatStatusLabel('FLAGGED')).toBe('Flagged')
-    expect(formatStatusLabel('DISMISSED')).toBe('Dismissed')
+  it('formatFromSnakeCase', () => {
+    expect(formatFromSnakeCase('UNDER_REVIEW')).toBe('Under Review')
+    expect(formatFromSnakeCase('FLAGGED')).toBe('Flagged')
+    expect(formatFromSnakeCase('DISMISSED')).toBe('Dismissed')
   })
 
   it('formatPlatform capitalizes', () => {
