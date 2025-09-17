@@ -3,7 +3,7 @@
     "id": 1,
     "platform": "twitter",
     "text": "Breaking news: Major political event happening now!",
-    "status": "DISMISSED",
+    "status": "FLAGGED",
     "tags": [
       "politics"
     ],
@@ -13,7 +13,7 @@
     "id": 2,
     "platform": "tiktok",
     "text": "Did you know this health fact? Turns out it's not true.",
-    "status": "UNDER_REVIEW",
+    "status": "FLAGGED",
     "tags": [
       "health"
     ],
@@ -152,7 +152,7 @@
     "id": 15,
     "platform": "telegram",
     "text": "FREE iPhone 15! Just click this link and enter your credit card details for shipping! Limited time offer!!!",
-    "status": "UNDER_REVIEW",
+    "status": "FLAGGED",
     "tags": [
       "scam",
       "spam"
@@ -185,7 +185,7 @@
     "id": 18,
     "platform": "instagram",
     "text": "Big Pharma doesn't want you to know about this natural remedy that cures EVERYTHING! DM me for details",
-    "status": "UNDER_REVIEW",
+    "status": "FLAGGED",
     "tags": [
       "health",
       "scam",
@@ -209,15 +209,11 @@
     "id": 20,
     "platform": "reddit",
     "text": "Just learned how to make sourdough bread during lockdown. It's been a fun and therapeutic hobby!",
-    "status": "FLAGGED",
+    "status": "DISMISSED",
     "tags": [
+      "food",
       "hobby",
-      "lifestyle",
-      "test-tag",
-      "spaced-tag",
-      "test-tag-unique",
-      "test-tag-1757774855640",
-      "test-tag-1757774863423"
+      "lifestyle"
     ],
     "created_at": "2025-08-08T11:55:00Z"
   }
