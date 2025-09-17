@@ -16,7 +16,7 @@ export const TagsAutocomplete: React.FC<Props> = ({ value, onChange }) => {
   return (
     <Autocomplete
       size="small"
-      options={tagOptions && tagOptions.length > 0 ? tagOptions : TAG_OPTIONS}
+      options={[...new Set([...TAG_OPTIONS, ...tagOptions])]} 
       value={value || null}
       onChange={(_, val) => {
         onChange(val || '')

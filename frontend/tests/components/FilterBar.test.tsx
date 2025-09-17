@@ -9,7 +9,7 @@ const renderFB = (overrides: Partial<Filters> = {}, onChange = vi.fn()) => {
   const filters: Filters = {
     status: '',
     platform: '',
-    tag: [],
+    tag: '',
     search: '',
     ...overrides,
   }

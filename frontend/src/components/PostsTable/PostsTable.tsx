@@ -70,11 +70,11 @@ export const PostsTable: React.FC<Props> = ({ posts, loading, error, total, onRe
         <Table stickyHeader aria-label="posts table">
           <TableHead className="bg-gray-100">
             <TableRow>
-              <TableCell className="w-1/3 font-semibold text-gray-800">Text</TableCell>
-              <TableCell className="w-1/6 font-semibold text-gray-800">Platform</TableCell>
-              <TableCell className="w-1/6 font-semibold text-gray-800">Status</TableCell>
-              <TableCell className="w-1/6 font-semibold text-gray-800">Tags</TableCell>
-              <TableCell className="w-1/6 font-semibold text-gray-800">Date</TableCell>
+              <TableCell scope="col" className="w-1/3 font-semibold text-gray-800">Text</TableCell>
+              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Platform</TableCell>
+              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Status</TableCell>
+              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Tags</TableCell>
+              <TableCell scope="col" className="w-1/6 font-semibold text-gray-800">Date</TableCell>
             </TableRow>
           </TableHead>
         <TableBody>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { getPosts } from '../api/posts'
 import type { TagOptionsContextType } from '../types'
 
@@ -11,7 +11,6 @@ interface TagOptionsProviderProps {
 export const TagOptionsProvider: React.FC<TagOptionsProviderProps> = ({ children }) => {
   const [tagOptions, setTagOptions] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const isMountedRef = React.useRef(true)
 
   // Normalize tag: trim whitespace and convert to lowercase for comparison
   const normalizeTag = (tag: string): string => {
@@ -22,7 +21,6 @@ export const TagOptionsProvider: React.FC<TagOptionsProviderProps> = ({ children
   useEffect(() => {
     const loadTagOptions = async () => {
       try {
-        if (!isMountedRef.current) return
         setIsLoading(true)
         // Fetch all posts to get existing tags
         const response = await getPosts({ limit: 1000, offset: 0 })
@@ -32,22 +30,16 @@ export const TagOptionsProvider: React.FC<TagOptionsProviderProps> = ({ children
         const uniqueTags = Array.from(new Set(allTags.map(normalizeTag)))
           .sort() // Sort alphabetically for better UX
         
-        if (!isMountedRef.current) return
         setTagOptions(uniqueTags)
       } catch (error) {
         console.error('Failed to load tag options:', error)
-        if (!isMountedRef.current) return
         setTagOptions([])
       } finally {
-        if (!isMountedRef.current) return
         setIsLoading(false)
       }
     }
 
     loadTagOptions()
-    return () => {
-      isMountedRef.current = false
-    }
   }, [])
 
   const addTagOption = (tag: string) => {

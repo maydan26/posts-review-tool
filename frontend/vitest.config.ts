@@ -5,5 +5,8 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './vitest.setup.ts',
+    typecheck: {
+      tsconfig: './tsconfig.test.json'
+    }
   },
 })
