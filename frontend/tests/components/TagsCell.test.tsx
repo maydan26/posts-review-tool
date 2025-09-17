@@ -9,10 +9,14 @@ import TagsCell from '../../src/components/PostsTable/TagsCell'
 const addTagMock = vi.fn()
 const removeTagMock = vi.fn()
 
-vi.mock('../../src/api/posts', () => ({
-  addTag: (...args: unknown[]) => addTagMock(...args),
-  removeTag: (...args: unknown[]) => removeTagMock(...args),
-}))
+vi.mock('../../src/api/posts', async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    addTag: (...args: unknown[]) => addTagMock(...args),
+    removeTag: (...args: unknown[]) => removeTagMock(...args),
+  }
+})
 
 // Mock format utility
 vi.mock('../../src/utils/format', () => ({
